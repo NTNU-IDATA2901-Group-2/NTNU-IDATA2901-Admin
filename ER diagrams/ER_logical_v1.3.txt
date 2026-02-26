@@ -1,0 +1,58 @@
+// Created using https://dbdiagrams.io
+
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+
+Table change_note {
+  id bigint [primary key]
+  release_note_id bigint
+  product_id bigint
+  scope_id bigint
+  feature_id bigint
+  customer_id bigint
+  timestamp bigint
+  reference varchar(255)
+  description varchar(255)
+  developer_notes varchar(255)
+  change_source varchar(255)
+  upgrade_notes varchar(255)
+  archived boolean
+  published boolean
+}
+
+Table release_note {
+  id bigint [primary key]
+  archived boolean
+  published boolean
+  created_at bigint
+  summary varchar(255)
+  tag varchar(255)
+}
+
+Table customer {
+  id bigint [primary key]
+  name varchar(255)
+}
+
+Table scope {
+  id bigint [primary key]
+  name varchar(255)
+}
+
+Table feature {
+  id bigint [primary key]
+  name varchar(255)
+}
+
+Table product {
+  id bigint [primary key]
+  name varchar(255)
+}
+
+
+Ref: change_note.release_note_id > release_note.id
+Ref: change_note.scope_id > scope.id
+Ref: change_note.product_id > product.id
+Ref: change_note.customer_id > customer.id
+Ref: change_note.feature_id > feature.id
