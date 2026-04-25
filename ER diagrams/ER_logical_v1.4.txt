@@ -1,0 +1,81 @@
+// Created using https://dbdiagrams.io
+
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+
+Table change_note {
+  id bigint [primary key]
+  reference text
+  description text
+  developer_notes text
+  upgrade_notes text
+  creation_timestamp bigint
+  published boolean
+  archived boolean
+  viewable_by_everyone boolean
+  product_id bigint [ref: > product.id]
+  scope_id bigint [ref: > scope.id]
+  feature_id bigint [ref: > feature.id]
+  customer_id bigint [ref: > customer.id]
+  git_commit_hash varchar(255)
+  git_commit_timestamp bigint
+  git_repository_id bigint [ref: > git_repository.id]
+  
+  
+}
+
+Table customer {
+  id bigint [primary key]
+  name varchar(255)
+}
+
+Table feature {
+  id bigint [primary key]
+  name varchar(255)
+}
+
+Table git_repository {
+  id bigint [primary key]
+  name varchar(255)
+  url varchar(255)
+  last_checked_commit_hash varchar(255)
+}
+
+Table product {
+  id bigint [primary key]
+  name varchar(255)
+}
+
+Table prompt {
+  id bigint [primary key]
+  name varchar(255)
+  prompt varchar(255)
+}
+
+Table release_note {
+  id bigint [primary key]
+  tag varchar(255)
+  summary varchar(255)
+  published boolean
+  archived boolean
+  created_at bigint
+}
+
+Table release_note_change_note {
+  change_note_id bigint [ref: > change_note.id]
+  release_note_id bigint [ref: > release_note.id]
+}
+
+Table scope {
+  id bigint [primary key]
+  name varchar(255)
+}
+
+
+
+
+//Ref: change_note.scope_id > scope.id
+//Ref: change_note.product_id > product.id
+//Ref: change_note.customer_id > customer.id
+//Ref: change_note.feature_id > feature.id
